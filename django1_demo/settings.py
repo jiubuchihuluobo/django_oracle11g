@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'user',
+    'apps.user',
 ]
 
 MIDDLEWARE = [
@@ -77,21 +77,21 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
 
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.oracle',
-    #     'NAME': '114.113.127.115:1521/zrty',
-    #     'USER': 'ibpcs',
-    #     'PASSWORD': 'ibpcs2021',
-    # },
-
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'zrty',
-        'HOST': '114.113.127.115',
-        'PORT': 1521,
+        'NAME': '114.113.127.115:1521/zrty',
         'USER': 'ibpcs',
         'PASSWORD': 'ibpcs2021',
     },
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.oracle',
+    #     'NAME': 'zrty',
+    #     'HOST': '114.113.127.115',
+    #     'PORT': 1521,
+    #     'USER': 'ibpcs',
+    #     'PASSWORD': 'ibpcs2021',
+    # },
 
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
@@ -120,6 +120,9 @@ DATABASES = {
         'PORT': 3306,
     },
 }
+
+# 自定义用户模型类
+AUTH_USER_MODEL = 'user.UserInfo'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
