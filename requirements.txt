@@ -1,3 +1,4 @@
 Django==1.11.29
+django-cors-headers==3.2.1
 cx-Oracle==6.1
 mysqlclient

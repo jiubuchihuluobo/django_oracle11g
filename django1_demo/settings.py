@@ -24,11 +24,12 @@ SECRET_KEY = 'menp-@6f-upfiaotvjr=-3kv6@bw@yqn5g1x55uzij72#8a@dl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,13 +43,22 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'django1_demo.urls'
+
+# 跨域
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://127.0.0.1:9000",
+]
 
 TEMPLATES = [
     {
@@ -84,14 +94,14 @@ DATABASES = {
         'PASSWORD': 'ibppwd',
     },
 
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.oracle',
-    #     'NAME': 'zrty',
-    #     'HOST': '114.113.127.115',
-    #     'PORT': 1521,
-    #     'USER': 'ibpcs',
-    #     'PASSWORD': 'ibpcs2021',
-    # },
+    'ibpcs': {
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'zrty',
+        'HOST': '114.113.127.115',
+        'PORT': 1521,
+        'USER': 'ibpcs',
+        'PASSWORD': 'ibpcs2021',
+    },
 
     # 'postgresql': {
     #     'ENGINE': 'django.db.backends.postgresql',
