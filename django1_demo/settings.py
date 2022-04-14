@@ -80,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': '114.113.127.115:1521/zrty',
-        'USER': 'ibpcs',
-        'PASSWORD': 'ibpcs2021',
+        'USER': 'ibp',
+        'PASSWORD': 'ibppwd',
     },
 
     # 'default': {
@@ -93,7 +93,7 @@ DATABASES = {
     #     'PASSWORD': 'ibpcs2021',
     # },
 
-    # 'default': {
+    # 'postgresql': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'mydb',
     #     'USER': 'work1',
