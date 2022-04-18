@@ -1,5 +1,8 @@
 import json
+import re
 
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.views import View
 
@@ -12,15 +15,28 @@ class LoginView(View):
         json_dict = json.loads(request.body)
         username = json_dict.get('username')
         password = json_dict.get('password')
-        user_obj = UserInfo.objects.filter(username=username).first()
-        result = UserInfo.check_password(self=user_obj, raw_password=password)
-        if result:
-            return JsonResponse({'status': 'ok'})
+        remember = json_dict.get('remember')
+        if re.search(r'^(13\d|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18\d|19[0-35-9])\d{8}$', username):
+            UserInfo.USERNAME_FIELD = 'mobile'
+        elif re.search(r'^[a-zA-Z]\w{4,15}$', username):
+            UserInfo.USERNAME_FIELD = 'username'
         else:
+            return JsonResponse({'status': 'failure', 'errmsg': '用户名格式错误'})
+        user = authenticate(request, username=username, password=password)
+        if not user:
             return JsonResponse({'status': 'failure', 'errmsg': '用户密码错误'})
+        else:
+            login(request=request, user=user)
+            if not remember:
+                request.session.set_expiry(0)
+            else:
+                request.session.set_expiry(None)
+        return JsonResponse({'status': 'success'})
+        # user_obj = UserInfo.objects.filter(username=username).first()
+        # result = UserInfo.check_password(self=user_obj, raw_password=password)
 
 
-class RegisterView(View):
+class RegisterView(LoginRequiredMixin, View):
     def post(self, request):
         json_dict = json.loads(request.body)
         username = json_dict.get('username')
@@ -37,6 +53,10 @@ class RegisterView(View):
 class DuplicateUsernameView(View):
     def get(self, request, username):
         count = UserInfo.objects.filter(username=username).count()
+        if request.user.is_authenticated is True:
+            print('认证成功')
+        else:
+            print('认证失败')
         if count == 0:
             return JsonResponse({'status': 'success', 'username': username})
         else:
@@ -46,6 +66,7 @@ class DuplicateUsernameView(View):
 class DuplicateMobileView(View):
     def get(self, request, mobile):
         count = UserInfo.objects.filter(mobile=mobile).count()
+        print(request.user.is_authenticated)
         if count == 0:
             return JsonResponse({'status': 'success', 'mobile': mobile})
         else:

@@ -134,6 +134,8 @@ DATABASES = {
 # 自定义用户模型类
 AUTH_USER_MODEL = 'user.UserInfo'
 
+LOGIN_URL = '/admin/login/'
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
